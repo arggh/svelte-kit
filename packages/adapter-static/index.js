@@ -21,9 +21,11 @@ export default function ({ pages = 'build', assets = pages, fallback, precompres
 			builder.rimraf(assets);
 			builder.rimraf(pages);
 
-			builder.writeStatic(assets);
-			builder.writeClient(assets);
-			builder.writePrerendered(pages, { fallback });
+			const prefixedAssets = `${assets}${builder.config.kit.paths.base}`;
+
+			builder.writeStatic(prefixedAssets);
+			builder.writeClient(prefixedAssets);
+			builder.writePrerendered(prefixedAssets, { fallback });
 
 			if (precompress) {
 				if (pages === assets) {
